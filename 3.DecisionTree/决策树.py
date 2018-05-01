@@ -128,11 +128,79 @@ def createTree(dataSet, labels):
         myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat,value), subLabels)
     return myTree
 
+'''
+args:
+     inputTree: 已经训练好的决策树模型
+     featLabels: Feature标签对应的名称，特征标签
+     testVec: 测试输入的数据
+'''
+def classify(inputTree, featLabels, testVec):
+    #获取tree的根节点对应的key值
+    firstStr = list(inputTree.keys())[0]
+    #通过key得到根节点对应的value
+    secondDict = inputTree[firstStr]
+    #获取根节点在label中的先后顺序
+    featIndex = featLabels.index(firstStr)   #将标签字符串转换为索引位置
+    for key in secondDict.keys():
+        #如果到达叶子节点，则返回当前节点的分类标签
+        if testVec[featIndex] == key:
+            if type(secondDict[key]).__name__ == 'dict':
+                #判断节点，递归继续找
+                classLabel = classify(secondDict[key], featLabels, testVec)
+            else:
+                classLabel = secondDict[key]
+    return classLabel
 
+    """
+    key = testVec[featIndex]
+    valueOfFeat = secondDict[key]
+    if isinstance(valueOfFeat, dict):
+        classLabel = classify(valueOfFeat, featLabels, testVec)
+    else:
+        classLabel = valueOfFeat
+    """
 
+#使用pickle模块存储决策树
+def storeTree(inputTree, filename):
+    import pickle
+    fw = open(filename, 'w')
+    pickle._dump(inputTree, fw)
+    fw.close()
 
+    '''
+    with open(filename, 'wb') as fw:
+        pickle.dump(inputTree, fw)
+    '''
 
+def grabTree(filename):
+    import pickle
+    fr = open(filename)
+    return pickle.load(fr)
 
+#对动物是否是鱼类分类的测试函数，并将结果使用matplotlib画出来
+def fishTest():
+    myDat, labels = createDataSet()
+    import copy
+    myTree = createTree(myDat, copy.deepcopy(labels))
+    print(myTree)
+    #[1,1]表示要取的分支上的节点位置，对应的结果值
+    print(classify(myTree, labels, [1,1]))
+
+    #画图可视化展现
+    dtplot.createPlot(myTree)
+
+def ContactLensesTest():
+    #加载隐形眼镜相关的文本文件数据
+    fr = open()
+    #解析数据，获取features数据
+    lenses = [inst.strip().split('\t') for inst in fr.readlines()]
+    #得到数据相应的Labels
+    lensesLabels = ['age', 'prescript', 'astigmatic', 'tearRate']
+    #构造预测隐形眼镜的决策树
+    lensesTree = createTree(lenses, lensesLabels)
+    print(lensesTree)
+    #画图可视化展现
+    dtplot.createPlot(lensesTree)
 
 
 
