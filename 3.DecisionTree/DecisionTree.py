@@ -11,7 +11,7 @@ def createDataSet():
 #计算给定数据集的香农熵（经验熵）
 from math import log
 def calcShannonEnt(dataSet):
-    numEntries = len(dataSet)   #表示参与训练的数据量
+    numEntries = len(dataSet)   #表示参与训练的数据量,求list的长度
     # 计算分类标签出现的次数
     labelCounts = {}
     for featVec in dataSet:
@@ -172,12 +172,15 @@ def storeTree(inputTree, filename):
         pickle.dump(inputTree, fw)
     '''
 
+#读取树
 def grabTree(filename):
     import pickle
     fr = open(filename)
     return pickle.load(fr)
 
+
 #对动物是否是鱼类分类的测试函数，并将结果使用matplotlib画出来
+import treePlotter
 def fishTest():
     myDat, labels = createDataSet()
     import copy
@@ -185,13 +188,12 @@ def fishTest():
     print(myTree)
     #[1,1]表示要取的分支上的节点位置，对应的结果值
     print(classify(myTree, labels, [1,1]))
-
     #画图可视化展现
-    dtplot.createPlot(myTree)
+    treePlotter.createPlot(myTree)
 
 def ContactLensesTest():
     #加载隐形眼镜相关的文本文件数据
-    fr = open()
+    fr = open('lenses.txt')
     #解析数据，获取features数据
     lenses = [inst.strip().split('\t') for inst in fr.readlines()]
     #得到数据相应的Labels
@@ -200,18 +202,23 @@ def ContactLensesTest():
     lensesTree = createTree(lenses, lensesLabels)
     print(lensesTree)
     #画图可视化展现
-    dtplot.createPlot(lensesTree)
+   # treePlotter.createPlot(lensesTree)
 
-
-
-
+'''
 def test():
     myDat,labels = createDataSet()
-    print(myTree = createTree(myDat, labels))
+   #print(createTree(myDat, labels))
+    #print(myDat)
     #print(calcShannonEnt(myDat))
+    #print(chooseBestFeatureToSplit(myDat))
+    myTree = treePlotter.retrieveTree(0)
+    classify(myTree,labels,[1,0])
+'''
 
 if __name__ == '__main__':
-     test()
+     #test()
+     #fishTest()
+     ContactLensesTest()
 
 
 
