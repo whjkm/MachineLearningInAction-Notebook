@@ -13,6 +13,7 @@ def loadDataSet():
     classVec = [0, 1, 0, 1, 0, 1] #1代表侮辱性文字，0代表正常言论
     return postingList, classVec
 
+# 创建一个词表
 def createVocabList(dataSet):
     vocabSet = set()    #创建一个空集
     for document in dataSet:
@@ -20,7 +21,7 @@ def createVocabList(dataSet):
     return  list(vocabSet)
 
 #遍历查看该单词是否出现，出现该单词则将该单词置1
-def setOfWordsVec(vocabList, inputSet):
+def setOfWordsVec(vocabList, inputSet):    # 将词表转化为向量
     returnVec = [0] * len(vocabList)   #创建一个其中所含元素都为0的向量
     for word in inputSet:
         if word in vocabList:
@@ -84,12 +85,13 @@ def trainNB1(trainMatrix, trainCategory):
 
 #朴素贝叶斯分类函数
 def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
-    p1 = sum(vec2Classify * p1Vec) + log(pClass1)
+    p1 = sum(vec2Classify * p1Vec) + log(pClass1)     # 对应元素相乘，log中变为相加
     p0 = sum(vec2Classify * p0Vec) + log(1.0 - pClass1)
     if p1 > p0:
         return 1
     else:
         return 0
+
 '''
 def testingNB():
     listOposts, listClasses = loadDataSet()
@@ -109,8 +111,9 @@ def testingNB():
 #文本解析，分词，解析为一共字符串列表
 def textParse(bigString):
     import re
-    #r表示raw String,自动将反斜杠转义
-    listOfTokens = re.split(r'\W+', bigString)  #匹配除单词、数字外的任意字符串
+    # r表示raw String,自动将反斜杠转义
+    listOfTokens = re.split(r'\W+', bigString)  # 匹配除单词、数字外的任意字符串
+    # 将字符串转化为小写，并返回长度大于2的字符串
     return [tok.lower() for tok in listOfTokens if len(tok) > 2]
 
 '''
@@ -125,18 +128,18 @@ def spamTest():
         #wordList = textParse(open('H:/python/email/spam/%d.txt' % i).read())
         #wordList = textParse(open('H:/python/email/spam/%d.txt' % i, 'r').read())
         try:
-            wordList = textParse(open('H:/python/email/spam/{}.txt'.format(i)).read())
+            wordList = textParse(open('H:/python/ml/email/spam/{}.txt'.format(i)).read())
         except:
-            wordList = textParse(open('H:/python/email/spam/{}.txt'.format(i),encoding = 'Windows 1252').read())
+            wordList = textParse(open('H:/python/ml/email/spam/{}.txt'.format(i),encoding = 'Windows 1252').read())
         docList.append(wordList)
         fullText.extend(wordList)
         classList.append(1)
         #wordList = textParse(open('H:/python/email/ham/%d.txt' % i).read())
         #wordList = textParse(open('H:/python/email/ham/%d.txt' % i, 'r').read())
         try:
-            wordList = textParse(open('H:/python/email/ham/{}.txt'.format(i)).read())
+            wordList = textParse(open('H:/python/ml/email/ham/{}.txt'.format(i)).read())
         except:
-            wordList = textParse(open('H:/python/email/ham/{}.txt'.format(i), encoding='Windows 1252').read())
+            wordList = textParse(open('H:/python/ml/email/ham/{}.txt'.format(i), encoding='Windows 1252').read())
         docList.append(wordList)
         fullText.extend(wordList)
         classList.append(0)
@@ -189,8 +192,6 @@ def calcMostFreq(vocabList, fullText):
     sortedFreq = sorted(freqDict.items(), key = operator.itemgetter(1), reverse = True) #True表示降序排列
     return sortedFreq[0:30]
 
-
-
 def localWords(feed1, feed0):
     docList = []
     classList = []
@@ -232,7 +233,6 @@ def localWords(feed1, feed0):
             errorCount += 1
     print('the error rate is: ', float(errorCount) / len(testSet))
     return vocabList, p0V, p1V
-
 
 
 def getTopWords():
@@ -299,9 +299,9 @@ if __name__ == '__main__':
      #test()
      #testingNB()
      #test1()
-     #spamTest()
+     spamTest()
      #testRss()
-     getTopWords()
+     #getTopWords()
 
 
 
