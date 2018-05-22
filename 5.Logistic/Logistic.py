@@ -17,7 +17,7 @@ def loadDataSet():
 
 #logistic函数，输入可以是向量
 def sigmoid(inX):
-    return 1.0/(1+ np.exp(-inX))
+    return 1.0/(1 + np.exp(-inX))
 
 #把数据集通过散点图绘制出来
 def plotDataSet():
@@ -176,8 +176,8 @@ def classifyVector(inX, weights):
         return 0.0
 
 def colicTest():
-    frTrain = open('H:/python/ml/horseColicTraining.txt')
-    frTest = open('H:/python/ml/horseColicTest.txt')
+    frTrain = open('H:/python/ml/horseColicTraining.txt')         #读取训练集
+    frTest = open('H:/python/ml/horseColicTest.txt')              #读取测试集
     trainingSet = []
     trainingLabels = []
     for line in frTrain.readlines():
@@ -187,7 +187,7 @@ def colicTest():
             lineArr.append(float(currLine[i]))
         trainingSet.append(lineArr)
         trainingLabels.append(float(currLine[21]))
-    trainWeights = stocGradAscent1(np.array(trainingSet), trainingLabels, 500)
+    trainWeights = stocGradAscent1(np.array(trainingSet), trainingLabels, 500)   #使用改进的随机梯度下降算法
     errorCount = 0
     numTestVec = 0
     for line in frTest.readlines():
@@ -196,7 +196,7 @@ def colicTest():
         lineArr = []
         for i in range(21):
             lineArr.append(float(currLine[i]))
-        if int (classifyVector(np.array(lineArr), trainWeights)) != int(currLine[21]):
+        if int(classifyVector(np.array(lineArr), trainWeights)) != int(currLine[21]):
             errorCount += 1
     errorRate = (float(errorCount)/numTestVec)
     print("the error rate of this test is : %f" % errorRate)
@@ -211,15 +211,10 @@ def multiTest():
 
 
 
-
-
-
-
-
 if __name__ == '__main__':
     #Gradient_Ascent_test()
     #plotDataSet()
-    dataMat, labelMat = loadDataSet()
+    #dataMat, labelMat = loadDataSet()
     # weights = gradAscent(dataMat, labelMat)
     # weights = stocGradAscent0(np.array(dataMat), labelMat)
     # weights = stocGradAscent1(np.array(dataMat), labelMat)
@@ -227,8 +222,8 @@ if __name__ == '__main__':
     # weights2, weights_array2 = gradAscent(dataMat, labelMat)
     # plotWeights(weights_array1, weights_array2)
     # plotBestFit(weights)
-
-
+    #colicTest()
+    multiTest()
 
 
 def Gradient_Ascent_test():
