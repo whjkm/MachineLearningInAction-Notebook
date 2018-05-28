@@ -6,7 +6,10 @@ Machine Learning in Action 学习笔记和代码
 笔记：[机器学习实战笔记（二）决策树][2]
 ## 第四章 朴素贝叶斯
 笔记：[机器学习实战笔记（三）朴素贝叶斯][3]
+## 第五章 Logistic回归
+笔记：[机器学习实战笔记（四）Logistic回归][4]
 
   [1]: https://blog.csdn.net/whjkm/article/details/80061382
   [2]: https://blog.csdn.net/whjkm/article/details/80188666
   [3]: https://blog.csdn.net/whjkm/article/details/80409119
+  [4]: https://blog.csdn.net/whjkm/article/details/80485135
